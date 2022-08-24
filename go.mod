@@ -6,7 +6,6 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
 	github.com/leonvanderhaeghen/go-grpc v0.0.0-20220819052511-23705eb3d81f
-	github.com/leonvanderhaeghen/go-rest v0.0.0-20220824115529-fcbb2078cd53
 	go.mongodb.org/mongo-driver v1.10.1
 	google.golang.org/grpc v1.49.0
 )
@@ -15,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/leonvanderhaeghen/go-rest v0.0.0-20220824115529-fcbb2078cd53 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

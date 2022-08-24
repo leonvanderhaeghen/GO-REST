@@ -6,11 +6,10 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/leonvanderhaeghen/go-rest/helper"
 	"github.com/leonvanderhaeghen/go-rest/models"
-	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 //Connection mongoDB with helper class
@@ -63,7 +62,6 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 	var product models.Product
 	// we get params with mux.
 	var params = mux.Vars(r)
-
 
 	id, _ := (params["id"])
 
@@ -131,13 +129,35 @@ func updateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	book.ID = id
+	product.Id = id
 
-	json.NewEncoder(w).Encode(book)
+	json.NewEncoder(w).Encode(product)
 }
 
+/*
+func deleteProduct(w http.ResponseWriter, r *http.Request) {
+	// Set header
+	w.Header().Set("Content-Type", "application/json")
 
+	// get params
+	var params = mux.Vars(r)
 
+	// string to primitve.ObjectID
+	id, err := params["id"]
+
+	// prepare filter.
+	filter := bson.M{"_id": id}
+
+	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+
+	if err != nil {
+		helper.GetError(err, w)
+		return
+	}
+
+	json.NewEncoder(w).Encode(deleteResult)
+}
+*/
 // var client *mongo.Client
 
 func main() {
@@ -148,7 +168,7 @@ func main() {
 	r.HandleFunc("/api/product/{id}", getProduct).Methods("GET")
 	r.HandleFunc("/api/product", createProduct).Methods("POST")
 	r.HandleFunc("/api/product/{id}", updateProduct).Methods("PUT")
-	r.HandleFunc("/api/product/{id}", DeleteProduct).Methods("DELETE")
+	//r.HandleFunc("/api/product/{id}", deleteProduct).Methods("DELETE")
 
 	config := helper.GetConfiguration()
 	log.Fatal(http.ListenAndServe(config.Port, r))
