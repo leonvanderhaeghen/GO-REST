@@ -46,7 +46,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// add item our array
-		books = append(products, product)
+		products = append(products, product)
 	}
 
 	if err := cur.Err(); err != nil {
@@ -136,28 +136,7 @@ func updateProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(book)
 }
 
-func deleteProduct(w http.ResponseWriter, r *http.Request) {
-	// Set header
-	w.Header().Set("Content-Type", "application/json")
 
-	// get params
-	var params = mux.Vars(r)
-
-	// string to primitve.ObjectID
-	id, err := params["id"]
-
-	// prepare filter.
-	filter := bson.M{"_id": id}
-
-	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
-
-	if err != nil {
-		helper.GetError(err, w)
-		return
-	}
-
-	json.NewEncoder(w).Encode(deleteResult)
-}
 
 // var client *mongo.Client
 
