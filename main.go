@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/leonvanderhaeghen/go-rest/helper"
-	"github.com/leonvanderhaeghen/go-rest/models"
+	"github.com/leonvanderhaeghen/GO-REST/helper"
+	dataModels "github.com/leonvanderhaeghen/GO-REST/dataModels"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -19,7 +19,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	// we created Book array
-	var products []models.Product
+	var products []dataModels.Product
 
 	// bson.M{},  we passed empty filter. So we want to get all data.
 	cur, err := collection.Find(context.TODO(), bson.M{})
@@ -37,7 +37,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 	for cur.Next(context.TODO()) {
 
 		// create a value into which the single document can be decoded
-		var product models.Product
+		var product dataModels.Product
 		// & character returns the memory address of the following variable.
 		err := cur.Decode(&product) // decode similar to deserialize process.
 		if err != nil {
@@ -59,7 +59,7 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 	// set header.
 	w.Header().Set("Content-Type", "application/json")
 
-	var product models.Product
+	var product dataModels.Product
 	// we get params with mux.
 	var params = mux.Vars(r)
 
@@ -80,7 +80,7 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 func createProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var product models.Product
+	var product dataModels.Product
 
 	// we decode our body request params
 	_ = json.NewDecoder(r.Body).Decode(&product)
@@ -104,7 +104,7 @@ func updateProduct(w http.ResponseWriter, r *http.Request) {
 	//Get id from parameters
 	id, _ := params["id"]
 
-	var product models.Product
+	var product dataModels.Product
 
 	// Create filter
 	filter := bson.M{"_id": id}
@@ -170,7 +170,6 @@ func main() {
 	r.HandleFunc("/api/product/{id}", updateProduct).Methods("PUT")
 	//r.HandleFunc("/api/product/{id}", deleteProduct).Methods("DELETE")
 
-	config := helper.GetConfiguration()
-	log.Fatal(http.ListenAndServe(config.Port, r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 
 }
